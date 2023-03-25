@@ -1,0 +1,29 @@
+{
+    "findAllComposers": [
+        {
+            "composerId": 1791,
+            "firstName": "Wolfgang",
+            "lastName": "Mozart"
+        },
+
+        {
+            "composerId": 1827,
+            "firstName": "Ludwig",
+            "lastName": "Betthoven"
+        },
+
+        {
+            "composerId": 1971,
+            "firstName": "Igor",
+            "lastName": "Starvinsky"
+        },
+
+        {
+            "composerId": 1849,
+            "firstName": "Frederic",
+            "lastName": "Chopin"
+        }
+
+
+    ]
+}
