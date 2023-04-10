@@ -95,6 +95,7 @@ router.get('/fruits/:id', async(req, res) => {
 });
 
 /**
+ * createComposer
  * @openapi
  * /api/composers:
  * post:
