@@ -50,3 +50,71 @@ router.get('/persons', async(req, res) => {
 })
 
 /**
+ * createPerson
+ * @openapi
+ * /api/persons:
+ *   post:
+ *     tags:
+ *       - Persons 
+ *     name: createPerson
+ *     summary: Creates a new Person document
+ *     requestBody: 
+ *       description: Person information
+ *       content: 
+ *          application/json:
+ *            schema: 
+ *              required:
+ *                - firstName
+ *                - lastName
+ *                - roles
+ *                - depenendents
+ *                - birthDate
+ *              properties:
+ *              firstName:
+ *                 type: string
+ *              lastName:
+ *                 type: string
+ *               roles:
+ *                 type: array
+ *               dependents:
+ *                 type: array
+ *               birthDate:
+ *                  type: string
+ *      responses:
+ *        '200':
+ *            description: Array of person documents
+ *        '500':
+ *            description: Server Exception
+ *       '501':
+ *            description: MongoDB Exception
+ */
+router.post('/persons', async(req, res) => {
+     try {
+        const newPerson = {
+         firstName: req.body.firstName,
+         lastName: req.body.lastName,
+         roles: req.body.roles,
+         dependents: req.body.dependents,
+         birthDate: req.body.birthDate
+        };
+      
+      await Person.create(newPerson, function(err, student) {
+       if (err) {
+        console.log(err);
+        res.status(500).send({
+            'message': `MongoDB Exception: ${err}`
+        })
+       } else {
+           console.log(person);
+           res.json(person);
+       }
+      })
+     } catch (e) {
+         console.log(e);
+         res.status(500).send({
+             'message': `Server Exception: ${e.message}`
+         })
+     }
+})
+
+module.exports = router;
