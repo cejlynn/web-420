@@ -17,7 +17,7 @@ const Person = require('../models/johnson-person.js');
   * /api/persons:
   *   get:
   *     tags:
-  *       - Students
+  *       - Persons
   *     description: API for returning a list of person documents from MongoDB
   *     summary: return list of person documen t
   *     responses:
