@@ -15,7 +15,7 @@ const Schema = mongoose.Schema;
 let userSchema = new Schema({
   userName: { type: String },
   Password: { type: String },
-  emailAddress: { type: Array }
+  emailAddress: { type: String }
   });
 
 module.exports = mongoose.model('User', userSchema);
