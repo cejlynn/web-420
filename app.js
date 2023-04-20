@@ -15,12 +15,24 @@ const mongoose = require('mongoose');
 const composerAPI = require("./routes/johnson-composer-routes.js");
 const personAPI = require("./routes/johnson-person-routes.js"); 
 
-const app = express();
+let app = express();
 
 app.set('port', process.env.PORT || 3000);
 
 app.use(express.json());
 app.use(express.urlencoded({'extended': true}));
+
+/** MongoDB Atlas connection string **/
+
+const conn = "mongodb+srv://web420_user:s3cret@bellevueuniversity.x3pcqyt.mongodb.net/web420DB?retryWrites=true&w=majority";
+mongoose.connect(conn, {
+    useNewUrlParser: true
+}).then(() => {
+    console.log(`Connection to web420DB on MongoDB Atlas successful`);
+}).catch(err => {
+    console.log(`MongoDB Error: ${err.message}`);
+})
+    
 
 const options = {
     definition: {
