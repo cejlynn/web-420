@@ -12,8 +12,10 @@ const http = require('http');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const mongoose = require('mongoose');
+const composerAPI = require("./routes/johnson-composer-routes.js");
+const personAPI = require("./routes/johnson-person-routes.js"); 
 
-let app = express();
+const app = express();
 
 app.set('port', process.env.PORT || 3000);
 
@@ -34,6 +36,8 @@ const options = {
 const openapiSpecification = swaggerJsdoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+app.use('/api', composerAPI);
+app.use('/api', personAPI);
 
 
 http.createServer(app).listen(app.get('port'), function() {
