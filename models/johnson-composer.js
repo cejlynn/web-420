@@ -7,7 +7,7 @@
 ;==================================
 */
 
-const mongoose = require('mongose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 /** composerSchema */
@@ -17,4 +17,4 @@ let composerSchema = new Schema({
     lastName: { type: String }
 });
 
-module.exports = mongoose.model('Composer, composerSchema')
+module.exports = mongoose.model('Composer', composerSchema')
