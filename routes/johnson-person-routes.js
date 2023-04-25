@@ -98,7 +98,7 @@ router.post('/persons', async(req, res) => {
          birthDate: req.body.birthDate
         };
       
-      await Person.create(newPerson, function(err, student) {
+      await Person.create(newPerson, function(err, person) {
        if (err) {
         console.log(err);
         res.status(500).send({
