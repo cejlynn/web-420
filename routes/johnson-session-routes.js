@@ -9,9 +9,8 @@
 
 const express = require('express');
 const router = express.Router();
-const Password = require('../models/johnson-user.js');
+const User = require('../models/johnson-user.js');
 const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('uuid');
 
 const saltRounds = 10;
 
@@ -59,15 +58,15 @@ const saltRounds = 10;
           emailAddress: req.body.emailAddress,
         };
       
-     await User.create(newUser, function(err, user) {
-       if (eer) {
+     await User.create(newRegisteredUser, function(err, user) {
+       if (err) {
          console.log(err);
          res.status(501).send({
               'message': `MongoDB Exception ${err}`
          })
        } else {
-         console.log(password);
-         res.json(password);
+         console.log(user);
+         res.json(user);
        }
      })
     } catch (e) {
@@ -112,7 +111,7 @@ const saltRounds = 10;
  */
 router.post('/login', async(req, res) => {
   try {
-    User.findOne({'userName': req.body.userName}, function(err, password) {
+    User.findOne({'userName': req.body.userName}, function(err, user) {
       if (err) {
           console.log(err);
           res.status(501).send({
@@ -121,7 +120,7 @@ router.post('/login', async(req, res) => {
       } else {
           console.log(user);
             if (user) {
-              let passwordIsValid = bcrypt.compareSync(req.body.password, user.pass);
+              let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
               
               if (passwordIsValid) {
                 console.log('User logged in');
