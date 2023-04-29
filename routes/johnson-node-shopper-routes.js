@@ -9,47 +9,47 @@
 
 const express = require('express');
 const router = express.Router();
-const Customer = require('../models/johnson-customers.js');
+const Customer = require('../models/johnson-customer.js');
 
 /**
-  * createCustomer
-  * @openapi
-  * /api/customers
-  *   post:
-  *     tags:
-  *       - Customers
-  *     name: createCustomer
-  *     summary: Creates a new Customer document
-  *     requestBody: 
-  *       description: Customer information
-  *       content:
-  *         application/json: 
-  *           schema: 
-  *             required: 
-  *              - firstName
-  *              - lastName
-  *              - userName
-  *             properties: 
-  *               firstName:
-  *                  type: string
-  *               lastName:
-  *                  type: string
-  *               userName:
-  *                  type: string
-  *      responses:
-  *        '200':
-  *          description: Customer added to MongoDB
-  *        '500':
-  *          description: Server Exception
-  *        '501': 
-  *          description: MongoDB Exception
-  */
+ * createCustomer
+ * @openapi
+ * /api/customers:
+ *   post:
+ *     tags:
+ *       - Customers
+ *     name: createCustomers
+ *     summary: Creates a new Customer document
+ *     requestBody:
+ *       description: customer information
+ *       content:
+ *         application/json:
+ *           schema:
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - userName
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               userName:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Customer added to MongoDB
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
+ */
 router.post('/customers', async(req, res) => {
  try {
   const newCustomer = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      username: req.body.userName
+      userName: req.body.userName
   };
   
   await Customer.create(newCustomer, function(err, customer) {
@@ -74,7 +74,7 @@ router.post('/customers', async(req, res) => {
 /**
   * createInvoiceByUserName
   * @openapi
-  * /api/customers/:username/invoices
+  * /api/customers/{username}/invoices
   *   post:
   *     tags:
   *       - Customers
@@ -82,7 +82,7 @@ router.post('/customers', async(req, res) => {
   *     description: Creates a invoice by username
   *     summary: Creates an invoice for an existing username
    parameters:
- *       - name: username
+ *       - name: userName
  *         in: path
  *         required: true
  *         description:
@@ -130,7 +130,7 @@ router.post('/customers', async(req, res) => {
 router.get('/customers/:username/invoices', async(req, res) => {
  try {
   await Customer.findOne(
-   { username: req.params.username },
+   { userName: req.params.userName },
    function (err, customer) {
     let newInvoice = {
      subtotal: req.body.subtotal,
@@ -175,10 +175,10 @@ router.get('/customers/:username/invoices', async(req, res) => {
  *     description:  API for looking up an invoice
  *     summary: looks up an invoice
  *     parameters:
- *       - name: username
+ *       - name: userName
  *         in: path
  *         required: true
- *         description: Customer username
+ *         description: Customer userName
  *         schema:
  *           type: string
  *     responses:
@@ -192,8 +192,8 @@ router.get('/customers/:username/invoices', async(req, res) => {
 router.get('customers/:username/invoices', async (req, res) => {
  try {
   Customer.findOne(
-   { username: req.params.username },
-   function (err, username) {
+   { userName: req.params.userName },
+   function (err, customer) {
     if (err) {
      console.log(err);
      res.status(501).send({
