@@ -15,6 +15,7 @@ const mongoose = require('mongoose');
 const composerAPI = require("./routes/johnson-composer-routes.js");
 const personAPI = require("./routes/johnson-person-routes.js"); 
 const userAPI = require("./routes/johnson-session-routes.js");
+const nodeAPI = require("./routes/johnson-node-shopper-routes.js")
 
 let app = express();
 
@@ -52,6 +53,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use('/api', composerAPI);
 app.use('/api', personAPI);
 app.use('/api', userAPI);
+app.use('/api', nodeAPI);
 
 
 http.createServer(app).listen(app.get('port'), function() {
