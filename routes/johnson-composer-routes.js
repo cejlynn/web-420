@@ -172,9 +172,12 @@ router.post('/composers', async(req, res) => {
  *          application/json:
  *            schema: 
  *                required: 
- *                    - type 
+ *                  - firstName
+ *                  - lastName
  *                properties:
- *                  type: 
+ *                  firstName:
+ *                     type: string
+ *                  lastName:
  *                    type: string 
  *     responses:
  *       '200': 
@@ -189,9 +192,9 @@ router.post('/composers', async(req, res) => {
  */
 router.put('/composers/:id', async (req, res) => {
     try {
-        const composerDocId = req.params.id; 
+        const composerFindId = req.params.id; 
         
-        Composer.findOne({'_id': composerDocId}, function(err, composer) {
+        Composer.findOne({'_id': composerFindId}, function(err, composer) {
             if (err) {
                 console.log(err);
                 res.status(501).send({
@@ -231,7 +234,7 @@ router.put('/composers/:id', async (req, res) => {
 /**
  * deleteComposer
  * @openapi
- * /api/composer/{id}: 
+ * /api/composers/{id}: 
  *   delete: 
  *      tags: 
  *        - Composer
@@ -253,11 +256,12 @@ router.put('/composers/:id', async (req, res) => {
  *           '501': 
  *              description: MongoDB Exception
  */
+
 router.delete('/composers/:id', async (req, res) => {
     try {
-        const composerDocId = req.params.id;
+        const composerFindId = req.params.id;
         
-        Composer.findByIdandDelete({'_id': composerDocId}, function(err, composer) {
+        Composer.findByIdAndDelete({'_id': composerFindId}, function(err, composer) {
             if (err) {
                 console.log(err);
                 res.status(501).send({
