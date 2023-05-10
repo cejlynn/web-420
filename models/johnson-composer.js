@@ -17,4 +17,4 @@ let composerSchema = new Schema({
     lastName: { type: String }
 });
 
-module.exports = mongoose.model('Composer', composerSchema')
+module.exports = mongoose.model('Composer', composerSchema)
