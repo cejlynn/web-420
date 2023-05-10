@@ -204,8 +204,8 @@ router.put('/composers/:id', async (req, res) => {
                 console.log(composer);
                 
                 composer.set({
-                    firstName: req.body.type,
-                    lastName: req.body.type
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName
                 });
                 
                 composer.save(function(err, updatedComposer) {
