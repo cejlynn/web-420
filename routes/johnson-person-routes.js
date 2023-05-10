@@ -1,219 +1,120 @@
 /*
 ===============================
-; Title: johnson-node-shopper-routes.js
+; Title: johnson-person-routes
 ; Author: Caitlynne Johnson
-; Date: 25 April 2023
-; Description: Node Shopper Routes
+; Date: 14 April 2023
+; Description: Person Routes
 ;==============================
 */
 
 const express = require('express');
 const router = express.Router();
-const Customer = require('../models/johnson-customer.js');
+const Person = require('../models/johnson-person.js');
+
+/** 
+  * findAllPersons
+  * @openapi 
+  * /api/persons:
+  *   get:
+  *     tags:
+  *       - Persons
+  *     description: API for returning a list of person documents from MongoDB
+  *     summary: return list of person documen t
+  *     responses:
+  *        '200':
+  *          description: Array of person documents
+  *        '500':
+  *           description: Server Exception
+  *        '501':
+              description: MongoDB Exception
+  */
+router.get('/persons', async(req, res) => {
+  try {
+    Person.find({}, function(err, persons) {
+      if (err) {
+        console.log(err);
+        res.status(501).send({
+          'message': `MongoDB Exception: ${err}`
+        })
+      } else {
+        console.log(persons);
+        res.json(persons);
+      }
+    })
+  } catch (e) {
+      console.log(e);
+      res.status(500).send({
+        'message': `Server Exception: ${e.message}`
+      })
+  }
+})
 
 /**
- * createCustomer
+ * createPerson
  * @openapi
- * /api/customers:
+ * /api/persons:
  *   post:
  *     tags:
- *       - Customers
- *     name: createCustomers
- *     summary: Creates a new Customer document
- *     requestBody:
- *       description: customer information
- *       content:
- *         application/json:
- *           schema:
- *             required:
- *               - firstName
- *               - lastName
- *               - userName
- *             properties:
- *               firstName:
+ *       - Persons 
+ *     name: createPerson
+ *     summary: Creates a new Person document
+ *     requestBody: 
+ *       description: Person information
+ *       content: 
+ *          application/json:
+ *            schema: 
+ *              required:
+ *                - firstName
+ *                - lastName
+ *                - roles
+ *                - depenendents
+ *                - birthDate
+ *              properties:
+ *              firstName:
  *                 type: string
- *               lastName:
+ *              lastName:
  *                 type: string
- *               userName:
- *                 type: string
- *     responses:
- *       '200':
- *         description: Customer added to MongoDB
- *       '500':
- *         description: Server Exception
+ *               roles:
+ *                 type: array
+ *               dependents:
+ *                 type: array
+ *               birthDate:
+ *                  type: string
+ *      responses:
+ *        '200':
+ *            description: Array of person documents
+ *        '500':
+ *            description: Server Exception
  *       '501':
- *         description: MongoDB Exception
+ *            description: MongoDB Exception
  */
-router.post('/customers', async(req, res) => {
- try {
-  const newCustomer = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      userName: req.body.userName
-  };
-  
-  await Customer.create(newCustomer, function(err, customer) {
-     if (err) {
+router.post('/persons', async(req, res) => {
+     try {
+        const newPerson = {
+         firstName: req.body.firstName,
+         lastName: req.body.lastName,
+         roles: req.body.roles,
+         dependents: req.body.dependents,
+         birthDate: req.body.birthDate
+        };
+      
+      await Person.create(newPerson, function(err, person) {
+       if (err) {
         console.log(err);
         res.status(500).send({
             'message': `MongoDB Exception: ${err}`
         })
-     } else {
-       console.log(customer);
-       res.json(customer);
+       } else {
+           console.log(person);
+           res.json(person);
+       }
+      })
+     } catch (e) {
+         console.log(e);
+         res.status(500).send({
+             'message': `Server Exception: ${e.message}`
+         })
      }
-  })
- } catch (e) {
-     console.log(e);
-     res.status(500).send({
-         'message': `Server Exception: ${e.message}`
-     })
- }
 })
 
-/**
-  * createInvoiceByUserName
-  * @openapi
-  * /api/customers/{username}/invoices
-  *   post:
-  *     tags:
-  *       - Customers
-  *     name: createInvoiceByUserName
-  *     description: Creates a invoice by username
-  *     summary: Creates an invoice for an existing username
-   parameters:
- *       - name: userName
- *         in: path
- *         required: true
- *         description:
- *         schema:
- *           type: string
- *     requestBody:
- *       description: invoice information
- *       content:
- *         application/json:
- *           schema:
- *             required:
- *               - subtotal
- *               - tax
- *               - dateCreated
- *               - dateShipped
- *               - lineItems
- *             properties:
- *               subtotal:
- *                 type: number
- *               tax:
- *                 type: number
- *               dateCreated:
- *                 type: string
- *               dateShipped:
- *                 type: string
- *               lineItems:
- *                 type: array
- *                 items:
- *                      type: object
- *                      properties:
- *                          name:
- *                              type: string
- *                          price:
- *                              type: number
- *                          quantity:
- *                              type: number
- *     responses:
- *       '200':
- *         description: Customer added to MongoDB
- *       '500':
- *         description: Server Exception
- *       '501':
- *         description: MongoDB Exception
- */
-router.get('/customers/:username/invoices', async(req, res) => {
- try {
-  await Customer.findOne(
-   { userName: req.params.userName },
-   function (err, customer) {
-    let newInvoice = {
-     subtotal: req.body.subtotal,
-     tax: req.body.tax,
-     dateCreated: req.body.dateCreated,
-     dateShipped: req.body.dateShipped,
-     lineItems: req.body.lineItems,
-    };
-    if (err) {
-     console.log(err);
-     res.status(500).send({
-      message: `MongoDB Exception: ${err}`,
-     });
-    } else {
-     customer.invoices.push(newInvoice);
-     customer.save(function (err, customer) {
-      if (err) {
-       console.log(err);
-      } else {
-       console.log(customer);
-       res.json(customer);
-      }
-     });
-    }
-   }
-   );
- } catch (e) {
-  console.log(e);
-  res.status(500).send({
-   message: `Server Exception: ${e.message}`,
-  });
- }
-});
-
-/**
-* findAllInvoicesByUserName
- * @openapi
- * /api/customers/{username}/invoices:
- *   get:
- *     tags:
- *       - Customers
- *     description:  API for looking up an invoice
- *     summary: looks up an invoice
- *     parameters:
- *       - name: userName
- *         in: path
- *         required: true
- *         description: Customer userName
- *         schema:
- *           type: string
- *     responses:
- *       '200':
- *         description: Customer Found in MongoDB
- *       '500':
- *         description: Server exception
- *       '501':
- *         description: MongoDB Exception
- */
-router.get('customers/:username/invoices', async (req, res) => {
- try {
-  Customer.findOne(
-   { userName: req.params.userName },
-   function (err, customer) {
-    if (err) {
-     console.log(err);
-     res.status(501).send({
-      message: `MongoDB Exception: ${err}`,
-     });
-    } else {
-     console.log(customer)
-     res.json(customer);
-    }
-   }
-   );
- } catch (e) {
-  console.log(e);
-  res.status(500).send({
-   message: `Server Exception: ${e.message}`,
-  });
- }
-});
-
-module.exports = router; // exporting routes
- 
-    
-
+module.exports = router;
