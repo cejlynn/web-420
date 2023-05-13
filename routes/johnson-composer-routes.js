@@ -152,46 +152,45 @@ router.post('/composers', async(req, res) => {
 });
 
 
-/**  
+/**
  * updateComposerById
- * @openapi 
+ * @openapi
  * /api/composers/{id}:
  *   put:
  *     tags:
- *        - Composers
+ *       - Composers
  *     name: updateComposerById
- *     descrption: API for updating an existing document in MongoDB
- *     summary: Updates a document in MongoDB
- *     parameters: 
- *       - name: id 
- *          in: path 
- *          required: true
- *          description: Id to filter the collection by 
- *           schema: 
- *              type: string
+ *     description: API for updating composer document to MongoDB Atlas
+ *     summary: updates a new composer document
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: Composer document id
+ *         schema:
+ *           type: string
  *     requestBody:
  *       description: Composer information
- *       content: 
- *          application/json:
- *            schema: 
- *                required: 
- *                  - firstName
- *                  - lastName
- *                properties:
- *                  firstName:
- *                     type: string
- *                  lastName:
- *                    type: string 
+ *       content:
+ *         application/json:
+ *           schema:
+ *             required:
+ *               - firstName
+ *               - lastName
+ *             properties:
+ *              firstName:
+ *                  type: string
+ *              lastName:
+ *                  type: string
  *     responses:
- *       '200': 
- *          description: Array of composer documents 
- *       '401': 
- *          description: Invalid composerId
- *       '500': 
- *          description: Server Exception
- *        '501': 
- *           description: MongoDB Exception
- 
+ *       '200':
+ *         description: Array of composer documents
+ *       '401':
+ *         description: Invalid composerId
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
  */
 router.put('/composers/:id', async (req, res) => {
     try {
@@ -235,29 +234,31 @@ router.put('/composers/:id', async (req, res) => {
 })
 
 /**
- * deleteComposer
+ * deleteComposerById
  * @openapi
- * /api/composers/{id}: 
- *   delete: 
- *      tags: 
- *        - Composer
- *      name: deleteComposer
- *      description: API for deleting a document from MongoDB
- *      summary: Removes a document from MongoDB
- *      parameters: 
- *        - name: id
- *          in: path
- *          required: true
- *          description: Id of the document to remove
- *          schema:
- *            type: string
- *       responses:
- *          '200': 
- *             description: Composer document
- *           '500': 
- *              description: Server Exception
- *           '501': 
- *              description: MongoDB Exception
+ * /api/composers/{id}:
+ *   delete:
+ *     tags:
+ *       - Composers
+ *     name: updateComposerById
+ *     description: API for updating composer document to MongoDB Atlas
+ *     summary: updates a new composer document
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: Composer document id
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Array of composer documents
+ *       '401':
+ *         description: Invalid composerId
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
  */
 
 router.delete('/composers/:id', async (req, res) => {
