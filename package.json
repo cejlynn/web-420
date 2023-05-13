@@ -18,5 +18,9 @@
   "author": "Caitlynne JOhnson",
   "devDependencies": {
     "nodemon": "^2.0.7"
+    },
+  "engines": {
+    "node": "16.14.2",
+    "npm": "8.5.0"
   }
 }
