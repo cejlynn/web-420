@@ -72,17 +72,17 @@ router.post('/customers', async(req, res) => {
 })
 
 /**
-  * createInvoiceByUserName
-  * @openapi
-  * /api/customers/{username}/invoices
-  *   post:
-  *     tags:
-  *       - Customers
-  *     name: createInvoiceByUserName
-  *     description: Creates a invoice by username
-  *     summary: Creates an invoice for an existing username
-   parameters:
- *       - name: userName
+ * createInvoiceByUserName
+ * @openapi
+ * /api/customers/{username}/invoices:
+ *   post:
+ *     tags:
+ *       - Customers
+ *     name: createInvoiceByUserName
+ *     description: This API will create a new invoice for the username provided
+ *     summary: add existing username to create a new invoice for the username
+ *     parameters:
+ *       - name: username
  *         in: path
  *         required: true
  *         description:
@@ -166,7 +166,7 @@ router.get('/customers/:username/invoices', async(req, res) => {
 });
 
 /**
-* findAllInvoicesByUserName
+ * findAllInvoicesByUserName
  * @openapi
  * /api/customers/{username}/invoices:
  *   get:
@@ -175,10 +175,10 @@ router.get('/customers/:username/invoices', async(req, res) => {
  *     description:  API for looking up an invoice
  *     summary: looks up an invoice
  *     parameters:
- *       - name: userName
+ *       - name: username
  *         in: path
  *         required: true
- *         description: Customer userName
+ *         description: Customer username
  *         schema:
  *           type: string
  *     responses:
