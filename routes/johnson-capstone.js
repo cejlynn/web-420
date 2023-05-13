@@ -12,6 +12,65 @@ const router = express.Router();
 const Teams = require('../models/johnson-capstone.js');
 
 /**
+ * createTeam
+ * @openapi
+ * /api/teams
+ *   post:
+ *     tags:
+ *       - Teams
+ *       name: createTeam
+ *       description: API for adding a new team
+ *       summary: creates a new team document
+ *       requestBody:
+ *         description: Team information
+ *         content:
+ *         application/json:
+ *            schema: 
+ *              required:
+ *                - name
+ *                - mascot
+ *              properties:
+ *                name:
+ *                  type: string
+ *                mascot:
+ *                   type: string
+ *        responses:
+ *          '200':
+ *             description: Array of team documents
+ *          '500':
+ *             description: Server Exception
+ *          '501':
+ *             description: MongoDB Exception
+ */
+router.post('/teams', async (req, res) => {
+  try {
+    let newTeam = {
+      name: req.body.name,
+      mascot: req.body.mascot,
+    };
+
+    await Teams.create(newTeam, function (err, team) {
+      if (err) {
+        console.log(err);
+        res.status(501).send({
+          message: `MongoDB Exception: ${err}`,
+        });
+      } else {
+        console.log(team);
+        res.json(team);
+      }
+      });
+    } catch (e) {
+      console.log(e) 
+        console.log(e);
+        res.status(500).send({
+          message: `Server Exception: ${e.message}`,
+        });
+      }
+    });
+
+
+/**
  * findAllTeams
  * @openapi 
  * /api/teams:
@@ -30,7 +89,7 @@ const Teams = require('../models/johnson-capstone.js');
  */
 router.get('/teams', async(req, res) => {
   try {
-    Teams.find({], function(err, teams) {
+    Teams.find({}, function(err, teams) {
       if (err) {
         console.log(err);
         res.status(501).send({
@@ -126,7 +185,7 @@ router.get('/teams/:id/players', async(req, res) => {
  */
 router.delete('/teams/:id', async(req, res) => {
   try {
-    Teams.findByIdandDelete({'_id': req.params.id}, function(err, team) {
+    Teams.findByIdAndDelete({'_id': req.params.id}, function(err, team) {
       if (err) {
         console.log(err);
         res.status(501).send({
@@ -192,7 +251,7 @@ router.delete('/teams/:id', async(req, res) => {
 */
 router.post('/teams/:id/players', async (req, res) => {
   try {
-    await Teams.findOne({'_id: req.params.id'}, function (err, team) {
+    await Teams.findOne({_id: req.params.id}, function (err, team) {
       let newPlayer = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
