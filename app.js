@@ -16,6 +16,7 @@ const composerAPI = require("./routes/johnson-composer-routes.js");
 const personAPI = require("./routes/johnson-person-routes.js"); 
 const userAPI = require("./routes/johnson-session-routes.js");
 const nodeAPI = require("./routes/johnson-node-shopper-routes.js")
+const capstoneAPI = require("./routes/johnson-capstone.js")
 
 let app = express();
 
@@ -54,6 +55,7 @@ app.use('/api', composerAPI);
 app.use('/api', personAPI);
 app.use('/api', userAPI);
 app.use('/api', nodeAPI);
+app.use('/api', capstoneAPI);
 
 
 http.createServer(app).listen(app.get('port'), function() {
