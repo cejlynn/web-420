@@ -53,23 +53,23 @@ router.get('/composers', async(req, res) => {
  * findComposerById
  * @openapi
  * /api/composers/{id}:
- * get:
- *  tags:
- *      - Composers
- *      description: API for returning composer document
- *      summary: returns a composer document
- *      parameters:
+ *   get:
+ *     tags:
+ *       - Composers
+ *     description:  API for returning a composer document
+ *     summary: returns a composer document
+ *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         description: Composer document id
  *         schema:
- *         type: string
- *  responses:
- *     '200':
- *       description: Composer document
- *      '500': 
- *        description: Server exception
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Composer document
+ *       '500':
+ *         description: Server exception
  *       '501':
  *         description: MongoDB Exception
  */
