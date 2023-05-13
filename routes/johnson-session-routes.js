@@ -21,8 +21,8 @@ const saltRounds = 10;
  *   post:
  *     tags:
  *       - User
- *     description: API for creating a new user. 
- *     summary: creates a new username. 
+ *     description:  API for creating a new username
+ *     summary: creates a new username
  *     requestBody:
  *       description: creation of username
  *       content:
@@ -30,25 +30,25 @@ const saltRounds = 10;
  *           schema:
  *             required:
  *               - userName
- *               - Password
+ *               - password
  *               - emailAddress
  *             properties:
  *               userName:
+ *                  type: string
+ *               password:
  *                 type: string
- *               Password:
- *                  type: string
  *               emailAddress:
- *                  type: string
+ *                 type: string
  *     responses:
  *       '200':
- *         description: Registered user
- *        '401': 
-            description: Username is already in use
+ *         description: Password added to MongoDB
+ *       '401':
+ *         description: Username already in use
  *       '500':
  *         description: Server Exception
  *       '501':
  *         description: MongoDB Exception
- */ 
+ */
   router.post('/signup', async(req, res) => {
     try {
         const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds); // salt/hash the password
