@@ -11,23 +11,23 @@ const express = require('express');
 const router = express.Router();
 const Person = require('../models/johnson-person.js');
 
-/** 
-  * findAllPersons
-  * @openapi 
-  * /api/persons:
-  *   get:
-  *     tags:
-  *       - Persons
-  *     description: API for returning a list of person documents from MongoDB
-  *     summary: return list of person documen t
-  *     responses:
-  *        '200':
-  *          description: Array of person documents
-  *        '500':
-  *           description: Server Exception
-  *        '501':
-              description: MongoDB Exception
-  */
+/**
+ * findAllPersons
+ * @openapi
+ * /api/persons:
+ *  get:
+ *     tags:
+ *       - Person
+ *     description: API for returning all persons from MongoDB.
+ *     summary: returns an array persons.
+ *     responses:
+ *       '200':
+ *         description: Array of person documents
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
+ */
 router.get('/persons', async(req, res) => {
   try {
     Person.find({}, function(err, persons) {
@@ -55,38 +55,50 @@ router.get('/persons', async(req, res) => {
  * /api/persons:
  *   post:
  *     tags:
- *       - Persons 
- *     name: createPerson
- *     summary: Creates a new Person document
- *     requestBody: 
- *       description: Person information
- *       content: 
- *          application/json:
- *            schema: 
- *              required:
- *                - firstName
- *                - lastName
- *                - roles
- *                - depenendents
- *                - birthDate
- *              properties:
- *              firstName:
+ *       - Person
+ *     description: API for creating a new person document.
+ *     summary: creates a new person document.
+ *     requestBody:
+ *       description: creation of person.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - roles
+ *               - dependents
+ *               - birthDate
+ *             properties:
+ *               firstName:
  *                 type: string
- *              lastName:
+ *               lastName:
  *                 type: string
  *               roles:
  *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     text:
+ *                       type: string
  *               dependents:
  *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     firstName:
+ *                       type: string
+ *                     lastName:
+ *                       type: string
  *               birthDate:
- *                  type: string
- *      responses:
- *        '200':
- *            description: Array of person documents
- *        '500':
- *            description: Server Exception
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Array of person documents
+ *       '500':
+ *         description: Server Exception
  *       '501':
- *            description: MongoDB Exception
+ *         description: MongoDB Exception
  */
 router.post('/persons', async(req, res) => {
      try {
