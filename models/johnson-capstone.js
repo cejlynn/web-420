@@ -12,16 +12,16 @@ const Schema = mongoose.Schema;
 
 /** Team Schema **/
 
-let TeamSchema = new Schema({
-  name: { type: String },
-  mascot: { type: String },
-  players: [playerSchema] // array 
-});
-
-let PlayerSchema = new Schema({
+let playerSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
   salary: { type: Number }
+});
+
+let teamSchema = new Schema({
+  name: { type: String },
+  mascot: { type: String },
+  players: [playerSchema], // array 
 });
 
 module.exports = mongoose.model('Teams', teamSchema);
