@@ -14,34 +14,34 @@ const Teams = require('../models/johnson-capstone.js');
 /**
  * createTeam
  * @openapi
- * /api/teams
+ * /api/teams:
  *   post:
  *     tags:
  *       - Teams
- *       name: createTeam
- *       description: API for adding a new team
- *       summary: creates a new team document
- *       requestBody:
- *         description: Team information
- *         content:
+ *     description: API for creating a new team document.
+ *     summary: creates a new team document.
+ *     requestBody:
+ *       description: creation of team.
+ *       content:
  *         application/json:
- *            schema: 
- *              required:
- *                - name
- *                - mascot
- *              properties:
- *                name:
- *                  type: string
- *                mascot:
- *                   type: string
- *        responses:
- *          '200':
- *             description: Array of team documents
- *          '500':
- *             description: Server Exception
- *          '501':
- *             description: MongoDB Exception
+ *           schema:
+ *             required:
+ *               - name
+ *               - mascot
+ *             properties:
+ *               name:
+ *                 type: string
+ *               mascot:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Array of team documents
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
  */
+
 router.post('/teams', async (req, res) => {
   try {
     let newTeam = {
@@ -109,32 +109,31 @@ router.get('/teams', async(req, res) => {
 });
 
 /**
-* findAllPlayersByTeamId
-* @openapi 
-* /api/teams/{id}/players:
-*    get:
-*      tags:
-*        - Teams 
-*    name: findAllPlayersByTeamId
-*    description: API for looking up teams by id
-*    summary: returns a teams document
-*    parameters:
-*      - name: id 
-*        in: path
-*        required: true
-*        description: Teams document id
-*        schema:
-*        type: string 
-*  responses:
-*     '200':
-*        description: Array of player documents
-*     '401': 
-*        description: Invalid teamId 
-*     '500': 
-*        description: Server Exception
-*     '501': 
-*        description: MongoDB Exception 
-*/
+ * findAllPlayersByTeamId
+ * @openapi
+ * /api/teams/{id}/players:
+ *   get:
+ *     tags:
+ *       - Teams
+ *     description:  API for looking up players in a team
+ *     summary: looks up players in a team
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: players by team id
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Array of player documents
+ *       '401':
+ *         description: Invalid teamId
+ *       '500':
+ *         description: Server exception
+ *       '501':
+ *         description: MongoDB Exception
+ */
 router.get('/teams/:id/players', async(req, res) => {
   try {
     Teams.findOne({'_id': req.params.id}, function(err, players) {
@@ -156,32 +155,32 @@ router.get('/teams/:id/players', async(req, res) => {
   }
 });
 
-/** 
+/**
  * deleteTeamById
- * @openapi 
- * /api/teams/{id}
+ * @openapi
+ * /api/teams/{id}:
  *   delete:
- *      tags: 
- *        - Teams
- *      name: deleteTeams
- *      description: API for deleting a document from MongoDB
- *      summary: Removes a document from MongoDB
- *      parameters: 
- *        - name: id
- *          in: path
- *          required: true
- *          description: Id of the document to remove
- *          schema: 
- *            type: string 
- *      responses: 
- *          '200':
- *             description: Team document
- *          '401':
- *             description: Invalid teamId
- *          '500': 
- *             description: Server Exception
- *          '501': 
- *             description: MongoDB Exception
+ *     tags:
+ *       - Teams
+ *     name: deleteTeamById
+ *     description: API for deleting a team
+ *     summary: deletes a team
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: team document id
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Team document
+ *       '401':
+ *         description: Invalid teamId
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
  */
 router.delete('/teams/:id', async(req, res) => {
   try {
@@ -207,48 +206,48 @@ router.delete('/teams/:id', async(req, res) => {
 });
 
 /**
-* assignPlayerToTeam
-* @openapi
-* /api/teams/{id}/players
-* post:
-*   tags:
-*      - Teams
-*      name: assignPlayerToTeam
-*      description: adds a player to a team
-*      summary: adds a player to an existing team
-*      parameters:
-*       - name: id
-*         in: path
-*         required: true
-*         description:
-*         schema:
-*            type: string
-*      requestBody:
-*         description: player information
-*         content:
-*            application/json:
-*                schema:
-*                   required:
-*                     - firstName
-*                     - lastName
-*                     - salary
-*                   properties: 
-*                     firstName:
-*                        type: string
-*                     lastName:
-*                        type: string
-*                     salary:
-*                        type: number
-*       responses: 
-*          '200':
-*             description: Player document
-*          '401':
-*             description: Invalid teamId
-*          '500': 
-*             description: Server Exception
-*          '501':
-*              description: MongoDB Exception
-*/
+ * assignPlayerToTeam
+ * @openapi
+ * /api/teams/{id}/players:
+ *   post:
+ *     tags:
+ *       - Teams
+ *     name: assignPlayerToTeam
+ *     description: This API will add a player to the team
+ *     summary: adds new players to existing team
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description:
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: player information
+ *       content:
+ *         application/json:
+ *           schema:
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - salary
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               salary:
+ *                 type: number
+ *     responses:
+ *       '200':
+ *         description: Player document
+ *       '401':
+ *         description: Invalid teamId
+ *       '500':
+ *         description: Server Exception
+ *       '501':
+ *         description: MongoDB Exception
+ */
 router.post('/teams/:id/players', async (req, res) => {
   try {
     await Teams.findOne({_id: req.params.id}, function (err, team) {
