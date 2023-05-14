@@ -93,7 +93,7 @@ const saltRounds = 10;
  *           schema:
  *             required:
  *               - userName
- *               - Password
+ *               - password
  *             properties:
  *               userName:
  *                 type: string
@@ -111,7 +111,7 @@ const saltRounds = 10;
  */
 router.post('/login', async(req, res) => {
   try {
-    User.findOne({'userName': req.body.userName}, function(err, user) {
+    User.findOne({userName: req.body.userName}, function(err, user) {
       if (err) {
           console.log(err);
           res.status(501).send({
